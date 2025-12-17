@@ -78,6 +78,7 @@ This project uses **Service Account authentication**.
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account.json"
+```
 
 🚀 How to Use
 Initialize Terraform:
