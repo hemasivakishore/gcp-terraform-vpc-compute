@@ -37,3 +37,8 @@ variable "region-subnet-4" {
   description = "The region for subnet 4"
   type        = string
 }
+
+variable "router-name" {
+  description = "The name of the Cloud Router"
+  type        = string
+}
