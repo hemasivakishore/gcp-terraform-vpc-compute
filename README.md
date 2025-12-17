@@ -45,6 +45,7 @@ Custom VPC
 ---
 
 ## 📂 Repository Structure
+```text
 terraform-gcp-vpc-compute/
 ├── README.md
 ├── versions.tf
@@ -58,6 +59,7 @@ terraform-gcp-vpc-compute/
 ├── terraform.tfvars
 └── diagrams/
 └── gcp-vpc-architecture.png
+```
 
 ---
 
