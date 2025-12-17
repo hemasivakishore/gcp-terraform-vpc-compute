@@ -32,13 +32,15 @@ Instead of jumping directly into advanced pipelines, this project deliberately b
 ---
 
 ## 🌐 Architecture Flow
+```text
 Custom VPC
 ├── Subnet (Regional)
 ├── Firewall Rules
-│    ├── SSH Access
-│    ├── HTTP Access
-│    └── Internal Traffic
+│   ├── SSH Access
+│   ├── HTTP Access
+│   └── Internal Traffic
 └── Compute Engine VM
+```
 
 ---
 
