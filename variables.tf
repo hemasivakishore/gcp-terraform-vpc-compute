@@ -23,6 +23,11 @@ variable "subnet-cidr-4" {
   type        = string
 }
 
+variable "subnet-cidr-5" {
+  description = "The CIDR range for subnet 5"
+  type        = string
+}
+
 variable "router-name" {
   description = "The name of the Cloud Router"
   type        = string
