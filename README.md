@@ -103,15 +103,16 @@ terraform destroy
 ```
 
 📖 Key Concepts Covered
+```text
 	•	GCP Global VPC vs Regional Subnets
 	•	Firewall Rules and Evaluation Order
 	•	Tags vs Service Accounts in Firewall Policies
 	•	Compute Engine Metadata & Startup Scripts
 	•	Terraform State Management
 	•	Infrastructure Reusability and Consistency
-
+```
 🎯 Why This Project
-
+```text
 This repository is designed to:
 	•	Build strong GCP networking fundamentals
 	•	Prepare for cloud and architecture interviews
@@ -121,6 +122,7 @@ This repository is designed to:
 	•	Managed Instance Groups
 	•	Golden Images (Packer)
 	•	CI/CD integrations
+```
 
 👨‍💻 Author
 
