@@ -36,3 +36,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 providers.tf
+
+# Ignore Certificate files
+cert.crt
+private.key
