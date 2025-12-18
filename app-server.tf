@@ -1,21 +1,19 @@
-#web-instance.tf
-# Static IP Reservation and App Server Instance Creation
-resource "google_compute_address" "static_ip_web_server" {
-  name   = "web-server-static-ip"
-  region = google_compute_subnetwork.main-subnet-3.region # Ensure this matches your instance's region
+resource "google_compute_address" "static_ip_app_server" {
+  name   = "app-server-static-ip"
+  region = google_compute_subnetwork.main-subnet-4.region # Ensure this matches your instance's region
 }
 
 # App Server Instance
-resource "google_compute_instance" "web_server" {
-  name         = "web-server"
+resource "google_compute_instance" "app_server" {
+  name         = "app-server"
   machine_type = var.app_machine_type
   zone         = var.zone
 
-  tags = ["subnet-3", "web-server"]
+  tags = ["subnet-4", "app-server"]
 
   labels = {
     environment = "dev"
-    role        = "web"
+    role        = "app"
     managed_by  = "terraform"
   }
 
@@ -30,10 +28,10 @@ resource "google_compute_instance" "web_server" {
   }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.main-subnet-3.id
+    subnetwork = google_compute_subnetwork.main-subnet-4.id
     stack_type = "IPV4_ONLY"
     access_config {
-      nat_ip = google_compute_address.static_ip_web_server.address # Assigns the reserved static IP
+      nat_ip = google_compute_address.static_ip_app_server.address # Assigns the reserved static IP
     }
   }
 

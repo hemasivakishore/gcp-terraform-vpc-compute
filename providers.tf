@@ -11,4 +11,5 @@ provider "google" {
   project = "project-1e2da3fc-bb97-4b70-9c0"
   region  = "us-east1"
   zone    = "us-east1-b"
+  credentials = file("~/.gcp/sa.json")
 }
