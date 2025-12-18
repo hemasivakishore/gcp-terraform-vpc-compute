@@ -32,9 +32,9 @@ resource "google_compute_instance" "web_server" {
   network_interface {
     subnetwork = google_compute_subnetwork.main-subnet-3.id
     stack_type = "IPV4_ONLY"
-    access_config {
-      nat_ip = google_compute_address.static_ip_web_server.address # Assigns the reserved static IP
-    }
+    # access_config {
+    #   nat_ip = google_compute_address.static_ip_web_server.address # Assigns the reserved static IP
+    # }
   }
 
 
