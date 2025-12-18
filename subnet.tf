@@ -1,3 +1,4 @@
+// subnet.tf
 resource "google_compute_subnetwork" "main-subnet-1" {
   name          = "main-subnet-1"
   ip_cidr_range = var.subnet-cidr-1

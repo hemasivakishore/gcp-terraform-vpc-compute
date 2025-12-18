@@ -1,3 +1,4 @@
+// app-server.tf
 resource "google_compute_address" "static_ip_app_server" {
   name   = "app-server-static-ip"
   region = google_compute_subnetwork.main-subnet-4.region # Ensure this matches your instance's region

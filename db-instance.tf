@@ -1,3 +1,4 @@
+//db-server.tf
 resource "google_compute_address" "static_ip_db_server" {
   name   = "db-server-static-ip"
   region = google_compute_subnetwork.main-subnet-5.region # Ensure this matches your instance's region

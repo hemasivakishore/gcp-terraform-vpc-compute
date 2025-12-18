@@ -1,3 +1,4 @@
+// nat-gateway.tf
 # Cloud NAT Gateway configuration
 resource "google_compute_router_nat" "main-nat" {
   name                               = "${var.router-name}-nat"
