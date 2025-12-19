@@ -78,12 +78,11 @@ CREATE TABLE IF NOT EXISTS songs (
 INSERT IGNORE INTO movies (name) VALUES
 ('Inception'),
 ('Interstellar'),
-('Matrix')
+('Matrix'),
 ('Pirates of the Caribbean: The Curse of the Black Pearl (2003)'),
-('Pirates of the Caribbean: Dead Man's Chest (2006)'),
-('Pirates of the Caribbean: At World's End (2007)'),
-(''Pirates of the Caribbean: On Stranger Tides (2011)'),
-('Pirates of the Caribbean'),
+('Pirates of the Caribbean: Dead Man''s Chest (2006)'),
+('Pirates of the Caribbean: At World''s End (2007)'),
+('Pirates of the Caribbean: On Stranger Tides (2011)'),
 ('Pirates of the Caribbean: Dead Men Tell No Tales (2017)'),
 ('The Lord of the Rings: The Fellowship of the Ring (2001)'),
 ('The Lord of the Rings: The Two Towers (2002)'),
@@ -101,7 +100,7 @@ INSERT IGNORE INTO songs (name) VALUES
 ('Levitating'),
 ('Peaches'),
 ('Save Your Tears'),
-('Watermelon Sugar'),
+('Senorita'),
 ('Bad Guy');
 EOF
 

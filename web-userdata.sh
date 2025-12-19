@@ -102,7 +102,8 @@ cat <<EOF >/var/www/html/index.html
 <body>
 
   <div id="hub-view">
-    <h1 class="hero-title">thehsk.shop</h1>
+    <h1 class="hero-title">thehsk.shop Infrastructure Hub</h1>
+	<h1 class="hero-title">V Hema Siva Kishore</h1>
     <p class="hero-sub">Live GCP Metadata Dashboard</p>
     <div class="card-grid">
       <div class="hub-card" onclick="showInfra()">
