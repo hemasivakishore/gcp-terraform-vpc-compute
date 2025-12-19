@@ -31,6 +31,7 @@ resource "google_compute_instance" "app_server" {
   network_interface {
     subnetwork = google_compute_subnetwork.main-subnet-4.id
     stack_type = "IPV4_ONLY"
+    network_ip = var.app_server_internal_ip # Static internal IP
     # access_config {
     #   nat_ip = google_compute_address.static_ip_app_server.address # Assigns the reserved static IP
     # }
@@ -38,12 +39,7 @@ resource "google_compute_instance" "app_server" {
 
 
   metadata = {
-    startup-script = <<-EOF
-      #!/bin/bash
-      set -e
-      apt update -y
-      apt install -y nginx net-tools jq unzip curl
-    EOF
+    startup-script = file("app-userdata.sh")
   }
 
   service_account {

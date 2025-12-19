@@ -69,3 +69,21 @@ variable "compute_service_account" {
   type        = string
   default     = "1063108248548-compute@developer.gserviceaccount.com"
 }
+
+variable "web_server_internal_ip" {
+  description = "Static internal IP for web server"
+  type        = string
+  default     = "192.168.3.2"
+}
+
+variable "app_server_internal_ip" {
+  description = "Static internal IP for app server"
+  type        = string
+  default     = "192.168.4.2"
+}
+
+variable "db_server_internal_ip" {
+  description = "Static internal IP for db server"
+  type        = string
+  default     = "192.168.5.2"
+}
