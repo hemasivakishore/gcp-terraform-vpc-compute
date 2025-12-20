@@ -1,133 +1,188 @@
-# Terraform GCP VPC & Compute Infrastructure
 
-## 📌 Overview
-This repository demonstrates **foundational Google Cloud infrastructure** built using **Terraform**, focusing on **networking and compute primitives**.
+# GCP 3-Tier Production-Style Architecture using Terraform
 
-Instead of jumping directly into advanced pipelines, this project deliberately builds **strong GCP fundamentals** — exactly how real-world cloud environments are designed.
+A brief description of what this project does and who it's for
 
----
+🚀 GCP 3-Tier Production-Style Architecture using Terraform
 
-## 🏗️ Architecture Components
+📌 Overview
 
-- Custom VPC (non-default)
-- Regional Subnets
-- Firewall Rules (Ingress & Egress)
-- Compute Engine VM
-- Startup Scripts & Metadata
-- Service Account attachment
-- Terraform best practices
+This repository demonstrates a production-style 3-tier architecture on Google Cloud Platform (GCP), fully provisioned using Terraform (Infrastructure as Code).
 
----
+The focus of this project is realistic cloud design:
+- Private networking
+- Tiered access control
+- Secure ingress with HTTPS
+- Application-level routing
+- End-to-end data flow (Web → App → DB)
 
-## 🧰 Tech Stack
+This is not a diagram-only project — every component is deployed, wired, and validated.
 
-- **Cloud Provider:** Google Cloud Platform (GCP)
-- **IaC Tool:** Terraform
-- **Resources Used:**
-  - google_compute_network
-  - google_compute_subnetwork
-  - google_compute_firewall
-  - google_compute_instance
+🏗️ High-Level Architecture
 
----
-
-## 🌐 Architecture Flow
-```text
-Custom VPC
-├── Subnet (Regional)
-├── Firewall Rules
-│   ├── SSH Access
-│   ├── HTTP Access
-│   └── Internal Traffic
-└── Compute Engine VM
+``` text
+Internet
+   |
+[ External HTTPS Load Balancer ]
+   |
+[ Web Tier - Private Subnet ]
+   |
+[ App Tier - Private Subnet ]
+   |
+[ DB Tier - Private Subnet ]
 ```
 
----
+All tiers use private IPs only.
+Outbound internet access is handled via Cloud NAT.
 
-## 📂 Repository Structure
-```text
-terraform-gcp-vpc-compute/
-├── README.md
-├── versions.tf
-├── providers.tf
-├── variables.tf
-├── outputs.tf
-├── vpc.tf
-├── subnets.tf
+🔹 Architecture Components\
+🌐 Entry Layer
+- GCP External HTTPS Application Load Balancer
+- Global static IP
+- SSL/TLS certificates generated using Certbot
+- Certificates integrated with GCP Certificate Manager
+- HTTPS termination at Load Balancer
+- HTTP → HTTPS redirection
+- Cloud DNS for domain resolution (thehsk.shop)
+
+🖥️ Web Tier (Private Subnet)
+- Nginx running as reverse proxy
+- Serves UI dashboard
+- Displays live GCP instance metadata (/home)
+- Proxies API requests to App tier
+- No public IP
+- Internet access via Cloud NAT
+
+⚙️ Application Tier (Private Subnet)
+- Python Flask API served via Gunicorn
+- Endpoints:
+- /movies
+- /songs
+- Fetches data only from DB tier
+- No public exposure
+- Accepts traffic only from Web tier
+
+🗄️ Database Tier (Private Subnet)
+- MySQL
+- Private IP only
+- Access restricted to App subnet
+- Stores movies & songs data
+- No outbound exposure
+
+🔀 Routing Design (Important)
+- Load Balancer acts as the single secure entry point
+- Path-based routing is implemented at the Web tier using Nginx
+- This is application-level routing, not LB-level URL map routing
+
+✔ Deliberate design choice
+✔ Simplifies LB configuration
+✔ Mirrors common real-world architectures
+
+🔐 Security & Networking
+- Custom VPC (no default network)
+- Multiple private subnets
+- Strict firewall rules:
+- LB → Web (80/443)
+- Web → App (8080)
+- App → DB (3306)
+- No public IPs on Compute instances
+- Controlled metadata access
+- All outbound traffic via Cloud NAT
+
+🛠️ Tech Stack
+- Terraform
+- Google Cloud Platform
+- VPC
+- Compute Engine
+- Cloud NAT
+- External HTTPS Load Balancer
+- Certificate Manager
+- Cloud DNS
+- Nginx
+- Flask + Gunicorn
+- MySQL
+- Certbot (SSL/TLS)
+
+🌐 Live Functional Endpoints
+``` text
+/        → UI Dashboard
+/home    → Live GCP instance metadata
+/movies  → Movie data (DB → App → Web)
+/songs   → Song data (DB → App → Web)
+```
+
+📂 Repository Structure
+```
+gcp-terraform-vpc-compute/
+├── app-server.tf
+├── app-userdata.sh
+├── backend-service.tf
+├── certificate-map.tf
+├── db-instance.tf
+├── db-userdata.sh
+├── dns.tf
 ├── firewall.tf
-├── compute.tf
+├── forwarding.tf
+├── lb-ip.tf
+├── nat-gateway.tf
+├── providers.tf
+├── route.tf
+├── subnet.tf
+├── variables.tf
 ├── terraform.tfvars
-└── diagrams/
-└── gcp-vpc-architecture.png
+├── vpc.tf
+├── web-instance.tf
+├── web-userdata.sh
+├── README.md
 ```
-
----
-
-## ⚙️ Prerequisites
-
-- Google Cloud Account
-- GCP Service Account with required IAM permissions
+⚙️ Prerequisites
+- Google Cloud Project
+- Service Account with required IAM permissions
 - Terraform CLI (>= 1.5)
-- Google Cloud SDK (gcloud)
+- Google Cloud SDK
+- Domain name (for HTTPS & DNS)
 
----
+🔐 Authentication
+Service Account–based authentication:
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/sa.json"
 
-## 🔐 Authentication
-
-This project uses **Service Account authentication**.
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account.json"
-```
-
-🚀 How to Use
-Initialize Terraform:
-```
+🚀 How to Deploy
 terraform init
-```
-Validate configuration:
-```
 terraform validate
-```
-Generate execution plan:
-```
 terraform plan
-```
-Apply infrastructure:
-```
 terraform apply
-```
-Destroy infrastructure:
-```
-terraform destroy
-```
 
-📖 Key Concepts Covered
-```text
-	•	GCP Global VPC vs Regional Subnets
-	•	Firewall Rules and Evaluation Order
-	•	Tags vs Service Accounts in Firewall Policies
-	•	Compute Engine Metadata & Startup Scripts
-	•	Terraform State Management
-	•	Infrastructure Reusability and Consistency
-```
-🎯 Why This Project
-```text
-This repository is designed to:
-	•	Build strong GCP networking fundamentals
-	•	Prepare for cloud and architecture interviews
-	•	Act as a base foundation for advanced topics such as:
-	•	Cloud NAT
-	•	Load Balancers
-	•	Managed Instance Groups
-	•	Golden Images (Packer)
-	•	CI/CD integrations
-```
+To clean up:
+terraform destroy
+
+📖 Key Concepts Demonstrated
+- GCP VPC design & subnet isolation
+- Firewall rule evaluation & least privilege
+- Private service communication
+- Cloud NAT for outbound traffic
+- HTTPS termination & certificate lifecycle
+- Application-level routing with Nginx
+- Startup scripts & VM bootstrapping
+- Terraform state & reproducibility
+
+
+🎯 Why This Project Matters
+- Demonstrates real cloud networking
+- Focuses on security-first design
+- Clear separation of concerns
+- Avoids unnecessary complexity
+- Fully reproducible & auditable via IaC
+- Strong foundation for:
+- Managed Instance Groups
+- Autoscaling
+- CI/CD
+- Kubernetes & GKE
+- Production SRE patterns
 
 👨‍💻 Author
 
 V Hema Siva Kishore
 SRE | DevOps | Cloud Automation
 
-🔗 LinkedIn: https://linkedin.com/in/hemasivakishore<br>
-🔗 GitHub: https://github.com/hemasivakishore
+🔗 GitHub: https://github.com/hemasivakishore \
+🔗 LinkedIn: https://linkedin.com/in/hemasivakishore
